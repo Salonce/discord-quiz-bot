@@ -38,7 +38,12 @@ public class QuizFlowService {
 
         Mono.firstWithSignal(runQuizFlow(messageChannel, match), runCheckIfAborted(messageChannel, match))
                 .then(Mono.defer(() -> removeQuiz(messageChannel)))
-                .subscribe();
+                //.subscribe();
+                .subscribe(null, error -> {
+                    System.err.println("QuizFlow ERROR: " + error.getMessage());
+                    removeQuiz(messageChannel);
+                    error.printStackTrace();
+                });
     }
 
     private Mono<Message> runJoiningPhase(MessageChannel messageChannel, Match match) {
