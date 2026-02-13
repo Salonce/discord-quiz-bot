@@ -1,8 +1,10 @@
 package dev.salonce.discordquizbot.application;
 
 import dev.salonce.discordquizbot.domain.*;
-import dev.salonce.discordquizbot.domain.exceptions.NotEnrollmentState;
-import dev.salonce.discordquizbot.domain.exceptions.UserAlreadyJoined;
+import dev.salonce.discordquizbot.domain.answers.Answer;
+import dev.salonce.discordquizbot.domain.NotEnrollmentState;
+import dev.salonce.discordquizbot.domain.UserAlreadyJoined;
+import dev.salonce.discordquizbot.domain.questions.Questions;
 import dev.salonce.discordquizbot.infrastructure.configs.QuizSetupConfig;
 import dev.salonce.discordquizbot.infrastructure.storage.MatchCache;
 import lombok.RequiredArgsConstructor;

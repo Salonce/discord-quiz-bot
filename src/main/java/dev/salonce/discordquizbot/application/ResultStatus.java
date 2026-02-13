@@ -1,6 +1,6 @@
 package dev.salonce.discordquizbot.application;
 
-import dev.salonce.discordquizbot.domain.Answer;
+import dev.salonce.discordquizbot.domain.answers.Answer;
 
 public final class ResultStatus {
     private final String message;

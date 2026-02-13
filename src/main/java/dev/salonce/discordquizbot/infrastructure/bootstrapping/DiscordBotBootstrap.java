@@ -1,7 +1,7 @@
 package dev.salonce.discordquizbot.infrastructure.bootstrapping;
 
-import dev.salonce.discordquizbot.application.ButtonHandlerChain;
-import dev.salonce.discordquizbot.application.MessageHandlerChain;
+import dev.salonce.discordquizbot.application.buttons.ButtonHandlerChain;
+import dev.salonce.discordquizbot.application.messages.MessageHandlerChain;
 import dev.salonce.discordquizbot.infrastructure.mappers.ButtonMapper;
 import dev.salonce.discordquizbot.infrastructure.mappers.MessageMapper;
 import discord4j.core.GatewayDiscordClient;

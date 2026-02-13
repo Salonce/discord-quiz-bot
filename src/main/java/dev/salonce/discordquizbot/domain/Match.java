@@ -1,7 +1,14 @@
 package dev.salonce.discordquizbot.domain;
 
-import dev.salonce.discordquizbot.domain.exceptions.NotEnrollmentState;
-import dev.salonce.discordquizbot.domain.exceptions.UserAlreadyJoined;
+import dev.salonce.discordquizbot.domain.answers.Answer;
+import dev.salonce.discordquizbot.domain.answers.AnswerDistribution;
+import dev.salonce.discordquizbot.domain.answers.AnswerSelectionGroup;
+import dev.salonce.discordquizbot.domain.players.Player;
+import dev.salonce.discordquizbot.domain.players.Players;
+import dev.salonce.discordquizbot.domain.questions.Question;
+import dev.salonce.discordquizbot.domain.questions.Questions;
+import dev.salonce.discordquizbot.domain.scores.PlayerScore;
+import dev.salonce.discordquizbot.domain.scores.Scoreboard;
 import lombok.Getter;
 
 import java.util.*;
@@ -16,7 +23,7 @@ public class Match{
     private Inactivity inactivity;
 
     public Match(Questions questions, String title, int difficulty, Long ownerId, Inactivity inactivity){
-        if (questions == null || questions == null || title == null || title.isEmpty() || difficulty < 0 || ownerId == null) {
+        if (questions == null || title == null || title.isEmpty() || difficulty < 0 || ownerId == null) {
             throw new IllegalArgumentException("Wrong data passed to the match.");
         }
         this.title = title;
@@ -157,30 +164,21 @@ public class Match{
     }
 
     private List<PlayerScore> getPlayersScores() {
-        List<Answer> correctAnswers = questions.getCorrectAnswersList();
-        List<PlayerScore> scores = new ArrayList<>();
-
-        for (Map.Entry<Long, Player> entry : players.getPlayersMap().entrySet()) {
-            scores.add(new PlayerScore(
-                    entry.getKey(),
-                    entry.getValue().calculateScore(correctAnswers)
-            ));
-        }
-        return scores;
+        return players.calculateScores(questions.getCorrectAnswersList());
     }
 
-    public AnswerDistributionDto getAnswerDistribution() {
+    public AnswerDistribution getAnswerDistribution() {
         List<Answer> possibleAnswers = questions.current().getPossibleAnswers();
 
-        List<AnswerOptionGroup> answerOptionGroupList = possibleAnswers.stream()
+        List<AnswerSelectionGroup> answerSelectionGroupList = possibleAnswers.stream()
                 .map(answer -> players.getAnswerGroup(currentQuestionIndex(), answer, getCurrentQuestion().isCorrectAnswer(answer)))
                 .toList();
 
-        AnswerOptionGroup noAnswerGroup = players.getAnswerGroup(currentQuestionIndex(), Answer.none(), getCurrentQuestion().isCorrectAnswer(Answer.none()));
+        AnswerSelectionGroup noAnswerGroup = players.getAnswerGroup(currentQuestionIndex(), Answer.none(), getCurrentQuestion().isCorrectAnswer(Answer.none()));
         Answer correctAnswer = getCurrentQuestion().getCorrectAnswer();
-        int optionsSize = getCurrentQuestion().getOptions().size();
+        int optionsSize = getCurrentQuestion().options().size();
 
-        return new AnswerDistributionDto(answerOptionGroupList, noAnswerGroup, correctAnswer, optionsSize);
+        return new AnswerDistribution(answerSelectionGroupList, noAnswerGroup, correctAnswer, optionsSize);
     }
 
 }

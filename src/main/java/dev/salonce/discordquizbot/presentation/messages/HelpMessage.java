@@ -1,8 +1,8 @@
 package dev.salonce.discordquizbot.presentation.messages;
 
 import dev.salonce.discordquizbot.application.CategoriesService;
-import dev.salonce.discordquizbot.domain.Category;
-import dev.salonce.discordquizbot.domain.Categories;
+import dev.salonce.discordquizbot.domain.category.Category;
+import dev.salonce.discordquizbot.domain.category.Categories;
 import discord4j.core.spec.EmbedCreateSpec;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -46,12 +46,12 @@ public class HelpMessage {
 
         //if (iterator.hasNext()) {
             Category category1 = categories.getFirstCategory();
-            examples.append(createExampleText(category1.getName(), 1));
+            examples.append(createExampleText(category1.name(), 1));
         //}
 
         //if (iterator.hasNext()) {
             Category category2 = categories.getSecondCategory();
-            examples.append(createExampleText(category2.getName(), 2));
+            examples.append(createExampleText(category2.name(), 2));
         //}
 
         return examples.toString();
@@ -64,7 +64,7 @@ public class HelpMessage {
 
     private String createCategoriesList(Categories categories) {
         return categories.getSortedList().stream()
-                .map(category -> category.getName() + " (1-" + category.getMaxDifficultyLevelAsInt() + ")")
+                .map(category -> category.name() + " (1-" + category.getMaxDifficultyLevelAsInt() + ")")
                 .collect(Collectors.joining("\n"));
     }
 }
