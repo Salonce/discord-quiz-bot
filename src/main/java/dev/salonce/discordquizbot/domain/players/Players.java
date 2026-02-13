@@ -3,6 +3,7 @@ package dev.salonce.discordquizbot.domain.players;
 import dev.salonce.discordquizbot.domain.answers.Answer;
 import dev.salonce.discordquizbot.domain.answers.AnswerSelectionGroup;
 import dev.salonce.discordquizbot.domain.UserAlreadyJoined;
+import dev.salonce.discordquizbot.domain.scores.PlayerScore;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -46,10 +47,6 @@ public class Players {
         players.remove(userId);
     }
 
-    public boolean isInTheMatch(Long userId){
-        return players.containsKey(userId);
-    }
-
     public boolean nooneAnswered(int index) {
         return players.values().stream()
                 .allMatch(player -> player.isUnanswered(index));
@@ -73,18 +70,12 @@ public class Players {
         return new AnswerSelectionGroup(userIds, answer, isCorrect);
     }
 
-    public Map<Long, Player> getPlayersMap() {
-        return Collections.unmodifiableMap(players);
-    }
-
-    public Map<Answer, List<Long>> getPlayersGroupedByAnswer(int index) {
-        Map<Answer, List<Long>> groups = new HashMap<>();
-
-        players.forEach((playerId, player) -> {
-            Answer answer = player.getAnswer(index);
-            groups.computeIfAbsent(answer, k -> new ArrayList<>()).add(playerId);
-        });
-
-        return groups;
+    public List<PlayerScore> calculateScores(List<Answer> correctAnswers) {
+        return players.entrySet().stream()
+                .map(e -> new PlayerScore(
+                        e.getKey(),
+                        e.getValue().calculateScore(correctAnswers)
+                ))
+                .toList();
     }
 }

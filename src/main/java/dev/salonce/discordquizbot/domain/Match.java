@@ -164,16 +164,7 @@ public class Match{
     }
 
     private List<PlayerScore> getPlayersScores() {
-        List<Answer> correctAnswers = questions.getCorrectAnswersList();
-        List<PlayerScore> scores = new ArrayList<>();
-
-        for (Map.Entry<Long, Player> entry : players.getPlayersMap().entrySet()) {
-            scores.add(new PlayerScore(
-                    entry.getKey(),
-                    entry.getValue().calculateScore(correctAnswers)
-            ));
-        }
-        return scores;
+        return players.calculateScores(questions.getCorrectAnswersList());
     }
 
     public AnswerDistribution getAnswerDistribution() {
@@ -185,7 +176,7 @@ public class Match{
 
         AnswerSelectionGroup noAnswerGroup = players.getAnswerGroup(currentQuestionIndex(), Answer.none(), getCurrentQuestion().isCorrectAnswer(Answer.none()));
         Answer correctAnswer = getCurrentQuestion().getCorrectAnswer();
-        int optionsSize = getCurrentQuestion().getOptions().size();
+        int optionsSize = getCurrentQuestion().options().size();
 
         return new AnswerDistribution(answerSelectionGroupList, noAnswerGroup, correctAnswer, optionsSize);
     }

@@ -17,8 +17,5 @@ public class RankGroup {
     public int getRank() { return rank; }
     public int getPoints() { return points; }
     public List<Long> getPlayerIds() { return new ArrayList<>(playerIds); }
-    public int getPlayerCount() { return playerIds.size(); }
-
-    public boolean isWinningRank() { return rank == 1; }
     public boolean containsPlayer(Long playerId) { return playerIds.contains(playerId); }
 }

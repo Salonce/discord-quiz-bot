@@ -30,7 +30,7 @@ public class QuestionMessage {
     private final MatchService matchService;
 
     public MessageCreateSpec createEmbed(Match match, int timeLeft){
-        int answersSize = match.getCurrentQuestion().getOptions().size();
+        int answersSize = match.getCurrentQuestion().options().size();
 
         List<Button> buttons = new ArrayList<>();
         for (int i = 0; i < answersSize; i++) {
@@ -40,8 +40,8 @@ public class QuestionMessage {
 
         EmbedCreateSpec embed = EmbedCreateSpec.builder()
                 .title(titleString(match))
-                .addField("\n", "❓ **" + match.getCurrentQuestion().getQuestion() + "**", false)
-                .addField("\n", getOptionsString(match.getCurrentQuestion().getOptions()) + "\n", false)
+                .addField("\n", "❓ **" + match.getCurrentQuestion().question() + "**", false)
+                .addField("\n", getOptionsString(match.getCurrentQuestion().options()) + "\n", false)
                 .addField("\n", "```⏳ " + timeLeft + " seconds left.```", false)
                 .build();
 
@@ -54,7 +54,7 @@ public class QuestionMessage {
 
 
     public MessageEditSpec editEmbedWithTime(Match match, int timeLeft){
-        int answersSize = match.getCurrentQuestion().getOptions().size();
+        int answersSize = match.getCurrentQuestion().options().size();
 
         List<Button> buttons = new ArrayList<>();
         for (int i = 0; i < answersSize; i++) {
@@ -64,8 +64,8 @@ public class QuestionMessage {
 
         EmbedCreateSpec embed = EmbedCreateSpec.builder()
                 .title(titleString(match))
-                .addField("\n", "❓ **" + match.getCurrentQuestion().getQuestion() + "**", false)
-                .addField("\n", getOptionsString(match.getCurrentQuestion().getOptions()) + "\n", false)
+                .addField("\n", "❓ **" + match.getCurrentQuestion().question() + "**", false)
+                .addField("\n", getOptionsString(match.getCurrentQuestion().options()) + "\n", false)
                 .addField("\n", "```⏳ " + timeLeft + " seconds left.```", false)
                 .build();
 
@@ -76,7 +76,7 @@ public class QuestionMessage {
     }
 
     public MessageEditSpec editEmbedAfterAnswersWait(Match match){
-        int answersSize = match.getCurrentQuestion().getOptions().size();
+        int answersSize = match.getCurrentQuestion().options().size();
 
         List<Button> buttons = new ArrayList<>();
         for (int i = 0; i < answersSize; i++) {
@@ -86,8 +86,8 @@ public class QuestionMessage {
 
         EmbedCreateSpec embed = EmbedCreateSpec.builder()
                 .title(titleString(match))
-                .addField("\n", "❓ **" + match.getCurrentQuestion().getQuestion() + "**", false)
-                .addField("\n", getOptionsString(match.getCurrentQuestion().getOptions()) + "\n", false)
+                .addField("\n", "❓ **" + match.getCurrentQuestion().question() + "**", false)
+                .addField("\n", getOptionsString(match.getCurrentQuestion().options()) + "\n", false)
                 .build();
 
         return MessageEditSpec.builder()
@@ -97,7 +97,7 @@ public class QuestionMessage {
     }
 
     public MessageEditSpec editEmbedWithScores(Match match){
-        int answersSize = match.getCurrentQuestion().getOptions().size();
+        int answersSize = match.getCurrentQuestion().options().size();
 
         List<Button> buttons = new ArrayList<>();
         for (int i = 0; i < answersSize; i++) {
@@ -107,9 +107,9 @@ public class QuestionMessage {
 
         EmbedCreateSpec embed = EmbedCreateSpec.builder()
                 .title(titleString(match))
-                .addField("\n", "❓ **" + match.getCurrentQuestion().getQuestion() + "**", false)
-                .addField("\n", getOptionsRevealed(match.getCurrentQuestion().getOptions()) + "\n", false)
-                .addField("\uD83D\uDCDD Explanation", match.getCurrentQuestion().getExplanation() + "\n", false)
+                .addField("\n", "❓ **" + match.getCurrentQuestion().question() + "**", false)
+                .addField("\n", getOptionsRevealed(match.getCurrentQuestion().options()) + "\n", false)
+                .addField("\uD83D\uDCDD Explanation", match.getCurrentQuestion().explanation() + "\n", false)
                 .addField("\uD83D\uDCCB Answers", getUsersAnswers(match.getAnswerDistribution()), false)
                 .addField("\uD83D\uDCCA Scoreboard", getScoreboard(match), false)
                 .build();
