@@ -1,6 +1,6 @@
 package dev.salonce.discordquizbot.application;
 
-import dev.salonce.discordquizbot.domain.Categories;
+import dev.salonce.discordquizbot.domain.category.Categories;
 import dev.salonce.discordquizbot.infrastructure.dtos.RawQuestion;
 import org.springframework.stereotype.Service;
 

@@ -2,6 +2,12 @@ package dev.salonce.discordquizbot.presentation.messages;
 
 import dev.salonce.discordquizbot.domain.*;
 import dev.salonce.discordquizbot.application.MatchService;
+import dev.salonce.discordquizbot.domain.answers.Answer;
+import dev.salonce.discordquizbot.domain.answers.AnswerDistribution;
+import dev.salonce.discordquizbot.domain.answers.AnswerSelectionGroup;
+import dev.salonce.discordquizbot.domain.questions.Option;
+import dev.salonce.discordquizbot.domain.scores.PlayerScore;
+import dev.salonce.discordquizbot.domain.scores.Scoreboard;
 import discord4j.core.object.component.ActionRow;
 import discord4j.core.object.component.Button;
 import discord4j.core.spec.EmbedCreateSpec;
@@ -129,13 +135,13 @@ public class QuestionMessage {
     private String titleString(Match match){
         return "Question " + (match.currentQuestionIndex() + 1) + "/10";
     }
-    private String getUsersAnswers(AnswerDistributionDto distributionDto) {
-        List<AnswerOptionGroup> groups = distributionDto.getAnswerGroups();
+    private String getUsersAnswers(AnswerDistribution distributionDto) {
+        List<AnswerSelectionGroup> groups = distributionDto.selectedAnswersGroups();
 
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < groups.size(); i++) {
-            Answer answer = groups.get(i).getAnswer();
+            Answer answer = groups.get(i).answer();
             boolean correct = groups.get(i).isCorrect();
 
             if (i > 0) sb.append("\n");
@@ -145,12 +151,12 @@ public class QuestionMessage {
                     : "❌ " + answer.asChar();
             sb.append(prefix).append(": ");
 
-            List<Long> playerIds = groups.get(i).getUserIds();
+            List<Long> playerIds = groups.get(i).userIds();
             sb.append(formatMentions(playerIds));
         }
 
         sb.append("\n\n💤: ");
-        sb.append(formatMentions(distributionDto.getNoAnswerGroup().getUserIds()));
+        sb.append(formatMentions(distributionDto.unselectedAnswerGroup().userIds()));
 
         return sb.toString();
     }
@@ -170,9 +176,9 @@ public class QuestionMessage {
     }
 
     private String formatPlayerScore(PlayerScore playerScore) {
-        String pointsText = playerScore.getPoints() == 1 ? "point" : "points";
-        return "<@" + playerScore.getPlayerId() + ">: " +
-                playerScore.getPoints() + " " + pointsText;
+        String pointsText = playerScore.points() == 1 ? "point" : "points";
+        return "<@" + playerScore.playerId() + ">: " +
+                playerScore.points() + " " + pointsText;
     }
 
 }

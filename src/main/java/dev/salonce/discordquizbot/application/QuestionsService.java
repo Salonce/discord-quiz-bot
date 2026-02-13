@@ -1,8 +1,8 @@
 package dev.salonce.discordquizbot.application;
 
-import dev.salonce.discordquizbot.domain.Question;
-import dev.salonce.discordquizbot.domain.Option;
-import dev.salonce.discordquizbot.domain.Questions;
+import dev.salonce.discordquizbot.domain.questions.Question;
+import dev.salonce.discordquizbot.domain.questions.Option;
+import dev.salonce.discordquizbot.domain.questions.Questions;
 import dev.salonce.discordquizbot.infrastructure.configs.QuizSetupConfig;
 import dev.salonce.discordquizbot.infrastructure.dtos.RawQuestion;
 import lombok.RequiredArgsConstructor;

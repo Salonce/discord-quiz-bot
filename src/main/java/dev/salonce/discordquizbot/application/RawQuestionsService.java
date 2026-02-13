@@ -1,8 +1,8 @@
 package dev.salonce.discordquizbot.application;
 
-import dev.salonce.discordquizbot.domain.Categories;
-import dev.salonce.discordquizbot.domain.Category;
-import dev.salonce.discordquizbot.domain.DifficultyLevel;
+import dev.salonce.discordquizbot.domain.category.Categories;
+import dev.salonce.discordquizbot.domain.category.Category;
+import dev.salonce.discordquizbot.domain.category.DifficultyLevel;
 import dev.salonce.discordquizbot.infrastructure.configs.CategoriesConfig;
 import dev.salonce.discordquizbot.infrastructure.storage.RawQuestionStore;
 import dev.salonce.discordquizbot.infrastructure.dtos.RawQuestion;

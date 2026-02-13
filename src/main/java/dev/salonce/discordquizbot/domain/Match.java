@@ -1,7 +1,14 @@
 package dev.salonce.discordquizbot.domain;
 
-import dev.salonce.discordquizbot.domain.exceptions.NotEnrollmentState;
-import dev.salonce.discordquizbot.domain.exceptions.UserAlreadyJoined;
+import dev.salonce.discordquizbot.domain.answers.Answer;
+import dev.salonce.discordquizbot.domain.answers.AnswerDistribution;
+import dev.salonce.discordquizbot.domain.answers.AnswerSelectionGroup;
+import dev.salonce.discordquizbot.domain.players.Player;
+import dev.salonce.discordquizbot.domain.players.Players;
+import dev.salonce.discordquizbot.domain.questions.Question;
+import dev.salonce.discordquizbot.domain.questions.Questions;
+import dev.salonce.discordquizbot.domain.scores.PlayerScore;
+import dev.salonce.discordquizbot.domain.scores.Scoreboard;
 import lombok.Getter;
 
 import java.util.*;
@@ -169,18 +176,18 @@ public class Match{
         return scores;
     }
 
-    public AnswerDistributionDto getAnswerDistribution() {
+    public AnswerDistribution getAnswerDistribution() {
         List<Answer> possibleAnswers = questions.current().getPossibleAnswers();
 
-        List<AnswerOptionGroup> answerOptionGroupList = possibleAnswers.stream()
+        List<AnswerSelectionGroup> answerSelectionGroupList = possibleAnswers.stream()
                 .map(answer -> players.getAnswerGroup(currentQuestionIndex(), answer, getCurrentQuestion().isCorrectAnswer(answer)))
                 .toList();
 
-        AnswerOptionGroup noAnswerGroup = players.getAnswerGroup(currentQuestionIndex(), Answer.none(), getCurrentQuestion().isCorrectAnswer(Answer.none()));
+        AnswerSelectionGroup noAnswerGroup = players.getAnswerGroup(currentQuestionIndex(), Answer.none(), getCurrentQuestion().isCorrectAnswer(Answer.none()));
         Answer correctAnswer = getCurrentQuestion().getCorrectAnswer();
         int optionsSize = getCurrentQuestion().getOptions().size();
 
-        return new AnswerDistributionDto(answerOptionGroupList, noAnswerGroup, correctAnswer, optionsSize);
+        return new AnswerDistribution(answerSelectionGroupList, noAnswerGroup, correctAnswer, optionsSize);
     }
 
 }

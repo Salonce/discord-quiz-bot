@@ -1,7 +1,7 @@
 package dev.salonce.discordquizbot.presentation.messages;
 import dev.salonce.discordquizbot.domain.Match;
 import dev.salonce.discordquizbot.application.MatchService;
-import dev.salonce.discordquizbot.domain.RankGroup;
+import dev.salonce.discordquizbot.domain.scores.RankGroup;
 import discord4j.core.spec.EmbedCreateSpec;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
