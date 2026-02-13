@@ -23,7 +23,7 @@ public class Match{
     private Inactivity inactivity;
 
     public Match(Questions questions, String title, int difficulty, Long ownerId, Inactivity inactivity){
-        if (questions == null || questions == null || title == null || title.isEmpty() || difficulty < 0 || ownerId == null) {
+        if (questions == null || title == null || title.isEmpty() || difficulty < 0 || ownerId == null) {
             throw new IllegalArgumentException("Wrong data passed to the match.");
         }
         this.title = title;

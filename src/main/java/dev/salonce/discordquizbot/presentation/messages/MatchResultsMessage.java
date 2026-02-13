@@ -35,12 +35,12 @@ public class MatchResultsMessage {
     }
 
     private String formatRankGroup(RankGroup rankGroup) {
-        String playersList = formatBoldMentions(rankGroup.getPlayerIds());
+        String playersList = formatBoldMentions(rankGroup.playerIds());
 
-        String pointWord = rankGroup.getPoints() == 1 ? "point" : "points";
-        String label = getRankLabel(rankGroup.getRank());
+        String pointWord = rankGroup.points() == 1 ? "point" : "points";
+        String label = getRankLabel(rankGroup.rank());
 
-        return label + ": " + playersList + " — **" + rankGroup.getPoints() + " " + pointWord + "**";
+        return label + ": " + playersList + " — **" + rankGroup.points() + " " + pointWord + "**";
     }
 
     private String getRankLabel(int rank) {

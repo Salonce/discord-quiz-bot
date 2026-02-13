@@ -170,7 +170,7 @@ public class QuestionMessage {
     private String getScoreboard(Match match) {
         Scoreboard scoreboard = match.getScoreboard();
 
-        return scoreboard.getRankedScores().stream()
+        return scoreboard.getPlayerScoresRanked().stream()
                 .map(this::formatPlayerScore)
                 .collect(Collectors.joining("\n"));
     }

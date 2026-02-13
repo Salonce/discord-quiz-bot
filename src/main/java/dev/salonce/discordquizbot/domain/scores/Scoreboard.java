@@ -4,12 +4,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Scoreboard {
-    private final List<PlayerScore> rankedScores;
+    private final List<PlayerScore> playerScoresRanked;
     private final List<RankGroup> rankGroups;
 
     public Scoreboard(List<PlayerScore> scores) {
         // Sort by points descending, then by playerId for consistency
-        this.rankedScores = scores.stream()
+        this.playerScoresRanked = scores.stream()
                 .sorted(Comparator.comparing(PlayerScore::points).reversed()
                         .thenComparing(PlayerScore::playerId))
                 .collect(Collectors.toList());
@@ -18,7 +18,7 @@ public class Scoreboard {
     }
 
     private List<RankGroup> calculateRankGroups() {
-        if (rankedScores.isEmpty()) {
+        if (playerScoresRanked.isEmpty()) {
             return Collections.emptyList();
         }
 
@@ -28,7 +28,7 @@ public class Scoreboard {
         // Group players by points while maintaining rank order
         Map<Integer, List<Long>> pointsToPlayers = new LinkedHashMap<>();
 
-        for (PlayerScore score : rankedScores) {
+        for (PlayerScore score : playerScoresRanked) {
             pointsToPlayers.computeIfAbsent(score.points(), k -> new ArrayList<>())
                     .add(score.playerId());
         }
@@ -45,48 +45,11 @@ public class Scoreboard {
         return groups;
     }
 
-    public List<PlayerScore> getRankedScores() {
-        return new ArrayList<>(rankedScores);
+    public List<PlayerScore> getPlayerScoresRanked() {
+        return new ArrayList<>(playerScoresRanked); // Unnecessary copy!
     }
 
     public List<RankGroup> getRankGroups() {
         return new ArrayList<>(rankGroups);
-    }
-
-    public PlayerScore getWinner() {
-        return rankedScores.isEmpty() ? null : rankedScores.get(0);
-    }
-
-    public RankGroup getWinningGroup() {
-        return rankGroups.isEmpty() ? null : rankGroups.get(0);
-    }
-
-    public List<PlayerScore> getPlayersWithScore(int points) {
-        return rankedScores.stream()
-                .filter(score -> score.points() == points)
-                .collect(Collectors.toList());
-    }
-
-    public RankGroup getRankGroupWithPoints(int points) {
-        return rankGroups.stream()
-                .filter(group -> group.getPoints() == points)
-                .findFirst()
-                .orElse(null);
-    }
-
-    public int getRankOf(Long playerId) {
-        for (int i = 0; i < rankedScores.size(); i++) {
-            if (rankedScores.get(i).playerId().equals(playerId)) {
-                return i + 1; // 1-based ranking
-            }
-        }
-        return -1; // Not found
-    }
-
-    public RankGroup getRankGroupOf(Long playerId) {
-        return rankGroups.stream()
-                .filter(group -> group.containsPlayer(playerId))
-                .findFirst()
-                .orElse(null);
     }
 }
